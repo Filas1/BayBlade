@@ -2,13 +2,9 @@ using UnityEngine;
 
 public class BoosterSpawner : MonoBehaviour
 {
-    void Start()
-    {
-        
-    }
+    [SerializeField] private float areaRadius = 14.5f;
+    [SerializeField] private GameObject boosterPrefab;
+    
+    
 
-    void Update()
-    {
-        
-    }
 }

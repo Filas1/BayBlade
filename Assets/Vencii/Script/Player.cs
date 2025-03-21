@@ -29,12 +29,12 @@ public class Player : BeyBladeBehaviour
         // Apply movement force
         if (movement.magnitude > 0.1f)
         {
-            Rb.AddForce(movement * MoveSpeed, ForceMode.Force);
+            Rb.AddForce(movement * Data.MoveSpeed, ForceMode.Force);
             
             // Limit maximum velocity
-            if (Rb.linearVelocity.magnitude > MaxMoveVelocity)
+            if (Rb.linearVelocity.magnitude > Data.MaxMoveVelocity)
             {
-                Rb.linearVelocity = Rb.linearVelocity.normalized * MaxMoveVelocity;
+                Rb.linearVelocity = Rb.linearVelocity.normalized * Data.MaxMoveVelocity;
             }
         }
     }

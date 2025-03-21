@@ -3,28 +3,17 @@ using UnityEngine;
 
 public class BeyBladeBehaviour : MonoBehaviour
 {
-    [Header("Spinning Settings")]
-    [SerializeField] private float minSpeed = 10f;
-    [SerializeField] private float startSpeed = 20f;
-    [SerializeField] private float spinDeceleration = 1f;
-    [SerializeField] private float maxTiltAngle = 15f;
-    [SerializeField] private Vector3 spinAxis = Vector3.up;
 
-    [Header("Collision Settings")]
-    [SerializeField] private float collisionForce = 500f;
-    [SerializeField] private float bounceForce = 100f;
-
-    [SerializeField] protected float MoveSpeed = 10f;
-    [SerializeField] protected float MaxMoveVelocity = 8f;
+    [SerializeField] protected BayBladeData Data;
     [SerializeField] protected float MoveVelocity = 8f;
     
-    private float currentSpeed;
+    protected float CurrentSpeed;
     protected Rigidbody Rb;
 
     protected virtual void Start()
     {
         Rb = GetComponent<Rigidbody>();
-        currentSpeed = startSpeed;
+        CurrentSpeed = Data.StartSpeed;
         StartCoroutine(SpinningBehaviour());
     }
 
@@ -32,16 +21,16 @@ public class BeyBladeBehaviour : MonoBehaviour
     
     private IEnumerator SpinningBehaviour()
     {
-        while (currentSpeed > minSpeed)
+        while (CurrentSpeed > Data.MinSpeed)
         {
             // Apply spinning torque
-            Rb.AddRelativeTorque(spinAxis * (currentSpeed * Time.fixedDeltaTime), ForceMode.Force);
+            Rb.AddRelativeTorque(Data.SpinAxis * (CurrentSpeed * Time.fixedDeltaTime), ForceMode.Force);
             
             // Decrease speed over time
-            currentSpeed = Mathf.Max(currentSpeed - spinDeceleration * Time.fixedDeltaTime, minSpeed);
+            CurrentSpeed = Mathf.Max(CurrentSpeed - Data.SpinDeceleration * Time.fixedDeltaTime, Data.MinSpeed);
 
             // Add wobble effect as speed decreases
-            float wobbleAmount = Mathf.Lerp(0f, maxTiltAngle, 1 - (currentSpeed / startSpeed));
+            float wobbleAmount = Mathf.Lerp(0f, Data.MaxTiltAngle, 1 - (CurrentSpeed / Data.StartSpeed));
             transform.rotation = Quaternion.Euler(
                 Mathf.Sin(Time.time * 5f) * wobbleAmount,
                 transform.rotation.eulerAngles.y,
@@ -60,27 +49,27 @@ public class BeyBladeBehaviour : MonoBehaviour
             Vector3 collisionDirection = (transform.position - collision.transform.position).normalized;
             
             // Apply force to both BeyBlades
-            Rb.AddForce(collisionDirection * collisionForce * (currentSpeed / startSpeed), ForceMode.Impulse);
-            otherBeyBlade.HandleCollision(-collisionDirection, currentSpeed);
+            Rb.AddForce(collisionDirection * Data.CollisionForce * (CurrentSpeed / Data.StartSpeed), ForceMode.Impulse);
+            otherBeyBlade.HandleCollision(-collisionDirection, CurrentSpeed);
 
             // Reduce speed on collision
-            currentSpeed *= 0.8f;
+            CurrentSpeed *= 0.8f;
         }
     }
 
     public void HandleCollision(Vector3 direction, float otherSpeed)
     {
-        Rb.AddForce(direction * collisionForce * (otherSpeed / startSpeed), ForceMode.Impulse);
-        currentSpeed *= 0.8f;
+        Rb.AddForce(direction * Data.CollisionForce * (otherSpeed / Data.StartSpeed), ForceMode.Impulse);
+        CurrentSpeed *= 0.8f;
     }
 
     public float GetCurrentSpeed()
     {
-        return currentSpeed;
+        return CurrentSpeed;
     }
 
     public void ApplyBoost(float boostAmount)
     {
-        currentSpeed += boostAmount;
+        CurrentSpeed += boostAmount;
     }
 }
