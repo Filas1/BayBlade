@@ -12,14 +12,18 @@ public class BeyBladeBehaviour : MonoBehaviour
 
     [Header("Collision Settings")]
     [SerializeField] private float collisionForce = 500f;
-    [SerializeField] private float bounceForce = 300f;
+    [SerializeField] private float bounceForce = 100f;
+
+    [SerializeField] protected float MoveSpeed = 10f;
+    [SerializeField] protected float MaxMoveVelocity = 8f;
+    [SerializeField] protected float MoveVelocity = 8f;
     
     private float currentSpeed;
-    private Rigidbody rb;
+    protected Rigidbody Rb;
 
-    private void Start()
+    protected virtual void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        Rb = GetComponent<Rigidbody>();
         currentSpeed = startSpeed;
         StartCoroutine(SpinningBehaviour());
     }
@@ -31,7 +35,7 @@ public class BeyBladeBehaviour : MonoBehaviour
         while (currentSpeed > minSpeed)
         {
             // Apply spinning torque
-            rb.AddRelativeTorque(spinAxis * (currentSpeed * Time.fixedDeltaTime), ForceMode.Force);
+            Rb.AddRelativeTorque(spinAxis * (currentSpeed * Time.fixedDeltaTime), ForceMode.Force);
             
             // Decrease speed over time
             currentSpeed = Mathf.Max(currentSpeed - spinDeceleration * Time.fixedDeltaTime, minSpeed);
@@ -52,11 +56,11 @@ public class BeyBladeBehaviour : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<BeyBladeBehaviour>(out var otherBeyBlade))
         {
-            // Calculate collision direction
+            
             Vector3 collisionDirection = (transform.position - collision.transform.position).normalized;
             
             // Apply force to both BeyBlades
-            rb.AddForce(collisionDirection * collisionForce * (currentSpeed / startSpeed), ForceMode.Impulse);
+            Rb.AddForce(collisionDirection * collisionForce * (currentSpeed / startSpeed), ForceMode.Impulse);
             otherBeyBlade.HandleCollision(-collisionDirection, currentSpeed);
 
             // Reduce speed on collision
@@ -66,12 +70,17 @@ public class BeyBladeBehaviour : MonoBehaviour
 
     public void HandleCollision(Vector3 direction, float otherSpeed)
     {
-        rb.AddForce(direction * collisionForce * (otherSpeed / startSpeed), ForceMode.Impulse);
+        Rb.AddForce(direction * collisionForce * (otherSpeed / startSpeed), ForceMode.Impulse);
         currentSpeed *= 0.8f;
     }
 
     public float GetCurrentSpeed()
     {
         return currentSpeed;
+    }
+
+    public void ApplyBoost(float boostAmount)
+    {
+        currentSpeed += boostAmount;
     }
 }
