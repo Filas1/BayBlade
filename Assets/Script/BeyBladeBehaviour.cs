@@ -49,6 +49,7 @@ public class BeyBladeBehaviour : MonoBehaviour
             Vector3 collisionDirection = (transform.position - collision.transform.position).normalized;
             
             // Apply force to both BeyBlades
+            
             Rb.AddForce(collisionDirection * Data.CollisionForce * (CurrentSpeed / Data.StartSpeed), ForceMode.Impulse);
             otherBeyBlade.HandleCollision(-collisionDirection, CurrentSpeed);
 

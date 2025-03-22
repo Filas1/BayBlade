@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BayBladeData
   m_EditorClassIdentifier: 
   <MinSpeed>k__BackingField: 10
-  <StartSpeed>k__BackingField: 20
+  <StartSpeed>k__BackingField: 100
   <SpinDeceleration>k__BackingField: 1
   <MaxTiltAngle>k__BackingField: 15
   <SpinAxis>k__BackingField: {x: 0, y: 1, z: 0}
