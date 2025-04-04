@@ -1,6 +1,8 @@
+using Unity.Properties;
 using UnityEngine;
 
 public abstract class BaseAbilityData : ScriptableObject
 {
-    [field:SerializeField] public float CooldownInSeconds{get;private set;}
+    [SerializeField] private float cooldownInSeconds = 20f;
+    [CreateProperty] public float CooldownInSeconds => cooldownInSeconds;
 }

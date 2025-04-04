@@ -1,6 +1,8 @@
+using Unity.Properties;
 using UnityEngine;
 
 public abstract class BaseRestrictedAbilityData : BaseAbilityData
 {
-    [field:SerializeField, Range(1,5)] public uint AmountOfUses{get;private set;}
+    [SerializeField, Range(1, 5)] private uint amountOfUses;
+    [CreateProperty] public uint AmountOfUses => amountOfUses;
 }

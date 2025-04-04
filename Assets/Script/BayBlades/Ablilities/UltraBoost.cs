@@ -3,7 +3,6 @@ using UnityEngine;
 public class UltraBoost : Ability, IRestriced
 {
     [SerializeField] private UltraBoostData data;
-    [SerializeField] private float speedBoost = 20f;
 
     protected override BaseAbilityData Data => data;
     public uint AmountOfUses => data.AmountOfUses;
@@ -12,7 +11,7 @@ public class UltraBoost : Ability, IRestriced
     {
         if(!CanBeUsed) return false;
         
-        interactor.ApplyBoost(interactor.Speed + speedBoost);
+        interactor.ApplyBoost(interactor.Speed + data.SpeedBoost);
         return true;
     }
 
