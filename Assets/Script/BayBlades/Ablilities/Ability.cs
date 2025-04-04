@@ -13,7 +13,7 @@ public abstract class Ability
 
     public virtual bool Use(IInteractor interactor)
     {
-        PerformCooldown();
+        _ = PerformCooldown();
         return true;
     }
 
