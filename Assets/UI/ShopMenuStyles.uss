@@ -1,0 +1,209 @@
+.root {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(20, 20, 20);
+    padding: 20px;
+    flex-direction: column;
+}
+
+.title {
+    -unity-font-style: bold;
+    font-size: 48px;
+    color: rgb(200, 200, 200);
+    -unity-text-align: middle-center;
+    margin-bottom: 20px;
+}
+
+.money-container {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.money-label {
+    color: rgb(255, 215, 0);
+    font-size: 24px;
+    -unity-font-style: bold;
+    margin-right: 10px;
+}
+
+.money-value {
+    color: rgb(255, 215, 0);
+    font-size: 24px;
+    -unity-font-style: bold;
+}
+
+.shop-content {
+    flex-grow: 1;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+.beyblade-display {
+    width: 60%;
+    height: 100%;
+    padding: 20px;
+    flex-direction: column;
+}
+
+.beyblade-render {
+    flex-grow: 1;
+    background-color: rgba(30, 30, 30, 0.5);
+    border-width: 2px;
+    border-color: rgba(200, 200, 200, 0.3);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.beyblade-stats {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: rgba(30, 30, 30, 0.5);
+    border-radius: 5px;
+}
+
+.stat-label {
+    color: rgb(200, 200, 200);
+    font-size: 18px;
+}
+
+.beyblade-info {
+    width: 40%;
+    padding: 20px;
+    justify-content: space-between;
+}
+
+.beyblade-name {
+    color: rgb(200, 200, 200);
+    font-size: 32px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    margin-bottom: 20px;
+}
+
+.beyblade-description {
+    color: rgb(180, 180, 180);
+    font-size: 18px;
+    -unity-text-align: middle-center;
+    white-space: normal;
+    margin-bottom: 30px;
+}
+
+.beyblade-price {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.price-label {
+    color: rgb(255, 215, 0);
+    font-size: 20px;
+    -unity-font-style: bold;
+    margin-right: 10px;
+}
+
+.price-value {
+    color: rgb(255, 215, 0);
+    font-size: 20px;
+    -unity-font-style: bold;
+}
+
+.navigation-controls {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-button {
+    background-color: rgba(200, 200, 200, 0.3);
+    border-width: 0;
+    border-radius: 50%;
+    padding: 15px;
+    color: rgb(200, 200, 200);
+    font-size: 24px;
+    width: 60px;
+    height: 60px;
+    -unity-text-align: middle-center;
+    transition-duration: 0.2s;
+}
+
+.nav-button:hover {
+    background-color: rgba(200, 200, 200, 0.5);
+    scale: 1.05;
+}
+
+.nav-button:active {
+    background-color: rgba(200, 200, 200, 0.7);
+    scale: 0.95;
+}
+
+.buy-button {
+    background-color: rgba(0, 150, 0, 0.7);
+    border-width: 0;
+    border-radius: 4px;
+    padding: 15px 30px;
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+    -unity-font-style: bold;
+    transition-duration: 0.2s;
+}
+
+.buy-button:hover {
+    background-color: rgba(0, 180, 0, 0.8);
+    scale: 1.05;
+}
+
+.buy-button:active {
+    background-color: rgba(0, 200, 0, 0.9);
+    scale: 0.95;
+}
+
+.back-button {
+    background-color: rgba(200, 200, 200, 0.3);
+    border-width: 0;
+    border-radius: 4px;
+    padding: 10px 20px;
+    color: rgb(200, 200, 200);
+    font-size: 20px;
+    align-self: flex-start;
+    transition-duration: 0.2s;
+}
+
+.back-button:hover {
+    background-color: rgba(200, 200, 200, 0.5);
+    scale: 1.05;
+}
+
+.back-button:active {
+    background-color: rgba(200, 200, 200, 0.7);
+    scale: 0.95;
+}
+
+/* Button variations for owned/equipped items */
+.owned-button {
+    background-color: rgba(0, 100, 150, 0.7);
+}
+
+.owned-button:hover {
+    background-color: rgba(0, 120, 180, 0.8);
+}
+
+.owned-button:active {
+    background-color: rgba(0, 140, 200, 0.9);
+}
+
+.equipped-button {
+    background-color: rgba(100, 100, 100, 0.7);
+}
+
+.equipped-button:hover {
+    background-color: rgba(120, 120, 120, 0.8);
+}
+
+.equipped-button:active {
+    background-color: rgba(140, 140, 140, 0.9);
+}
