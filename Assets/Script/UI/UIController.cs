@@ -9,7 +9,7 @@ public class UIController : MonoBehaviour
     void Start()
     {
         ui = GetComponent<UIDocument>();
-        var buttonsContainer = ui.rootVisualElement.Q<VisualElement>("menu-container").Q<VisualElement>("menu-buttons");
+        var buttonsContainer = ui.rootVisualElement.Q<VisualElement>("menu-buttons");
         buttonsContainer.Q<Button>("Play").clicked += OnPlayClick;
         buttonsContainer.Q<Button>("Exit").clicked += OnExitClick;
         buttonsContainer.Q<Button>("Settings").clicked += OnSettingsClick;
@@ -38,7 +38,7 @@ public class UIController : MonoBehaviour
 
     private void OnDestroy()
     {
-        var buttonsContainer = ui.rootVisualElement.Q<VisualElement>("menu-container").Q<VisualElement>("menu-buttons");
+        var buttonsContainer = ui.rootVisualElement.Q<VisualElement>("menu-buttons");
         buttonsContainer.Q<Button>("Play").clicked -= OnPlayClick;
         buttonsContainer.Q<Button>("Exit").clicked -= OnExitClick;
         buttonsContainer.Q<Button>("Settings").clicked -= OnSettingsClick;

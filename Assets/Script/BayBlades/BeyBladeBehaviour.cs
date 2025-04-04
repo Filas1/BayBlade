@@ -1,11 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
-public class BeyBladeBehaviour : MonoBehaviour
+public class BeyBladeBehaviour : MonoBehaviour, IInteractor
 {
 
     [SerializeField] protected BayBladeData Data;
     [SerializeField] protected float MoveVelocity = 8f;
+    public float Speed => Data.Speed;
     
     protected float CurrentSpeed;
     protected Rigidbody Rb;
@@ -30,7 +31,7 @@ public class BeyBladeBehaviour : MonoBehaviour
             CurrentSpeed = Mathf.Max(CurrentSpeed - Data.SpinDeceleration * Time.fixedDeltaTime, Data.MinSpeed);
 
             // Add wobble effect as speed decreases
-            float wobbleAmount = Mathf.Lerp(0f, Data.MaxTiltAngle, 1 - (CurrentSpeed / Data.StartSpeed));
+            var wobbleAmount = Mathf.Lerp(0f, Data.MaxTiltAngle, 1 - (CurrentSpeed / Data.StartSpeed));
             transform.rotation = Quaternion.Euler(
                 Mathf.Sin(Time.time * 5f) * wobbleAmount,
                 transform.rotation.eulerAngles.y,
@@ -46,7 +47,7 @@ public class BeyBladeBehaviour : MonoBehaviour
         if (collision.gameObject.TryGetComponent<BeyBladeBehaviour>(out var otherBeyBlade))
         {
             
-            Vector3 collisionDirection = (transform.position - collision.transform.position).normalized;
+            var collisionDirection = (transform.position - collision.transform.position).normalized;
             
             // Apply force to both BeyBlades
             
