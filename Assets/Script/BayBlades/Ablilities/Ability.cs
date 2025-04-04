@@ -4,24 +4,20 @@ using UnityEngine;
 [System.Serializable]
 public abstract class Ability
 {
-    [SerializeField] protected float CooldownInSeconds;
+    protected abstract BaseAbilityData Data { get; }
     protected bool CanBeUsed = true;
     /// <summary>
     /// 0 symbolises done
     /// </summary>
     protected float CooldownProgress;
 
-    public virtual bool Use(IInteractor interactor)
-    {
-        _ = PerformCooldown();
-        return true;
-    }
+    public abstract bool Use(IInteractor interactor);
 
     protected async Task PerformCooldown()
     {
         CanBeUsed = false;
-        CooldownProgress = CooldownInSeconds;
-        while (CooldownProgress <= CooldownInSeconds)
+        CooldownProgress = Data.CooldownInSeconds;
+        while (CooldownProgress <= Data.CooldownInSeconds)
         {
             CooldownProgress -= Time.deltaTime;
             await Task.Yield();

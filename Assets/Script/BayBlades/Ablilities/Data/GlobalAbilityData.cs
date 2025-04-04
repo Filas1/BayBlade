@@ -2,7 +2,7 @@ using JetBrains.Annotations;
 using Unity.Properties;
 using Unity.VisualScripting;
 using UnityEngine;
-[CreateAssetMenu(menuName = "GameData/GlobalAbilityData")]
+[CreateAssetMenu(menuName = "GameData/Abilities/GlobalAbilityData")]
 public class GlobalAbilityData : ScriptableObject
 {
     [SerializeField] private Ability ability;
