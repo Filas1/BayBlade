@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4691ccccb55b40acb284208743152cb5, type: 3}
+  m_Name: Popelnik
+  m_EditorClassIdentifier: 
+  baybladeName: Popelnik
+  description: "Tento bayblade nad\u011Bl\xE1 ze sv\xFDch nep\u0159\xE1tel popel
+    d\xEDky jeho ohromn\xE9 s\xEDle"
+  price: 500
+  <Prefab>k__BackingField: {fileID: 7589086824169065901, guid: f16031d42ec573d499cdd868465b3ea9, type: 3}
+  data: {fileID: 11400000, guid: c31e172cd4c2528499525ea18868959a, type: 2}
+  maxDefense: 120
+  maxAttack: 100
+  maxStamina: 90
+  <Owned>k__BackingField: 0

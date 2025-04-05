@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-public class UIController : MonoBehaviour
+public class MainMenuController : MonoBehaviour
 {
     private UIDocument ui;
     void Start()

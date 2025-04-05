@@ -1,81 +1,80 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
-using System.Collections.Generic;
 
 public class ShopController : MonoBehaviour
 {
     [SerializeField]
     private GlobalData globalData;
     private GlobalBaybladeData[] bayblades => globalData.Bayblades;
-    public int playerMoney = 1000;
     [SerializeField] private LayerMask previewMask;
     
     private VisualElement root;
-    private Label moneyValue;
-    private Label beybladeName;
-    private Label beybladeDescription;
-    private Label priceValue;
-    private Label attackStat;
-    private Label defenseStat;
-    private Label staminaStat;
     private Button buyButton;
     private Button leftButton;
     private Button rightButton;
+    private Button backButton;
     private VisualElement beybladeRender;
     [SerializeField] private Camera renderCamera;
     [SerializeField] private Transform containerForBayblade;
     private int layerForPreview;
     
-    private int currentIndex = 0;
     private RenderTexture renderTexture;
     private GameObject currentBeybladeModel;
+    private Transform cameraPivot;
 
-    private void OnEnable()
+    private void Awake()
     {
+        cameraPivot = renderCamera.transform.parent;
+        layerForPreview = SortingLayer.GetLayerValueFromName("BeybladePreview");
+        InitUI();
+    }
+
+    private void InitUI()
+    {
+        if (!globalData.ViewedBayblade)
+        {
+            globalData.ViewedBayblade = bayblades[0];
+        }
         UIDocument document = GetComponent<UIDocument>();
         root = document.rootVisualElement;
-        
-        // Get UI elements
-        moneyValue = root.Q<Label>("MoneyValue");
-        beybladeName = root.Q<Label>("BeybladeName");
-        beybladeDescription = root.Q<Label>("BeybladeDescription");
-        priceValue = root.Q<Label>("PriceValue");
-        attackStat = root.Q<Label>("AttackStat");
-        defenseStat = root.Q<Label>("DefenseStat");
-        staminaStat = root.Q<Label>("StaminaStat");
         buyButton = root.Q<Button>("BuyButton");
         leftButton = root.Q<Button>("LeftButton");
         rightButton = root.Q<Button>("RightButton");
         beybladeRender = root.Q<VisualElement>("beyblade-render");
-        beybladeRender.RegisterCallback<GeometryChangedEvent>((evt) =>
-        {
-            renderTexture = new RenderTexture((int)evt.newRect.width ,(int)evt.newRect.height , 16, RenderTextureFormat.ARGB32);
-            renderTexture.Create();
-            renderCamera.targetTexture = renderTexture;
-        
-            beybladeRender.style.backgroundImage = new StyleBackground()
-            {
-                value = Background.FromRenderTexture(renderTexture)
-            };
-            
-        });
-        // Set up buttons
-        buyButton.clicked += OnBuyButtonClicked;
-        leftButton.clicked += OnLeftButtonClicked;
-        rightButton.clicked += OnRightButtonClicked;
-        root.Q<Button>("BackButton").clicked += OnBackButtonClicked;
+        backButton = root.Q<Button>("BackButton");
         
         // Create render texture for 3D model
         SetupRenderTexture();
-        
-        // Display initial Beyblade
-        UpdateDisplay();
+    }
+    private void BeybladeRenderCallback(GeometryChangedEvent evt)
+    {
+        renderTexture.Release();
+        renderTexture = new RenderTexture((int)evt.newRect.width, (int)evt.newRect.height, 16, RenderTextureFormat.ARGB32);
+        renderTexture.Create();
+        renderCamera.targetTexture = renderTexture;
+
+        beybladeRender.style.backgroundImage = new StyleBackground() { value = Background.FromRenderTexture(renderTexture) };
+    }
+    private void OnEnable()
+    {
+        beybladeRender.RegisterCallback<GeometryChangedEvent>(BeybladeRenderCallback);
+
+        buyButton.clicked += OnBuyButtonClicked;
+        leftButton.clicked += OnLeftButtonClicked;
+        rightButton.clicked += OnRightButtonClicked;
+        backButton.clicked += OnBackButtonClicked;
     }
 
-    private void Start()
+    private void OnDisable()
     {
-        SortingLayer.GetLayerValueFromName("BeybladePreview");
+        beybladeRender.UnregisterCallback<GeometryChangedEvent>(BeybladeRenderCallback);
+
+        buyButton.clicked -= OnBuyButtonClicked;
+        leftButton.clicked -= OnLeftButtonClicked;
+        rightButton.clicked -= OnRightButtonClicked;
+        backButton.clicked -= OnBackButtonClicked;
     }
 
     private void SetupRenderTexture()
@@ -88,8 +87,11 @@ public class ShopController : MonoBehaviour
         {
             value = Background.FromRenderTexture(renderTexture)
         };
+        
+        UpdateBeybladeModel();
     }
 
+    /*
     private void UpdateDisplay()
     {
         if (bayblades.Length == 0) return;
@@ -100,7 +102,7 @@ public class ShopController : MonoBehaviour
         beybladeName.text = current.name;
         beybladeDescription.text = current.Description;
         priceValue.text = current.Price.ToString();
-        moneyValue.text = playerMoney.ToString();
+        moneyValue.text = globalData.PlayerMoney.ToString();
         attackStat.text = $"ATTACK: {current.MaxAttack}";
         defenseStat.text = $"DEFENSE: {current.MaxDefense}";
         staminaStat.text = $"STAMINA: {current.MaxStamina}";
@@ -128,27 +130,25 @@ public class ShopController : MonoBehaviour
             buyButton.RemoveFromClassList("owned-button");
             buyButton.RemoveFromClassList("equipped-button");
             buyButton.AddToClassList("buy-button");
-            buyButton.SetEnabled(playerMoney >= current.Price);
+            buyButton.SetEnabled(globalData.PlayerMoney >= current.Price);
         }
         
         // Update 3D model
         UpdateBeybladeModel();
-    }
+    }*/
 
     private void UpdateBeybladeModel()
     {
         // Remove current model if it exists
         if (currentBeybladeModel)
             Destroy(currentBeybladeModel);
-            
-        // Instantiate new model
-        if (!bayblades[currentIndex].Prefab) return;
-        currentBeybladeModel = Instantiate(bayblades[currentIndex].Prefab, containerForBayblade, true);
         
-
-        // Set layer for render camera
+        if (!globalData.ViewedBayblade.Prefab) return;
+        
+        currentBeybladeModel = Instantiate(globalData.ViewedBayblade.Prefab, containerForBayblade, true);
+        
         currentBeybladeModel.GetComponent<Rigidbody>().isKinematic = true;
-        SetLayerRecursively(currentBeybladeModel,3);
+        SetLayerRecursively(currentBeybladeModel, 3);
     }
     
     private void SetLayerRecursively(GameObject obj, int layer)
@@ -162,43 +162,55 @@ public class ShopController : MonoBehaviour
 
     private void Update()
     {
-        currentBeybladeModel.transform.Rotate(Vector3.up * (30 * Time.deltaTime));
+        currentBeybladeModel?.transform.Rotate(Vector3.up * (30 * Time.deltaTime));
     }
 
     private void OnBuyButtonClicked()
     {
-        var current = bayblades[currentIndex];
-        
-        if (current.Owned)
+        if (globalData.ViewedBayblade.Owned)
         {
-            globalData.Equipped = current;
+            globalData.Equipped = globalData.ViewedBayblade;
         }
-        else if (playerMoney >= current.Price)
+        if (globalData.PlayerMoney < globalData.ViewedBayblade.Price)
+        {
+            //Maybe say that player is poor xD
+        }
+        else
         {
             // Buy the Beyblade
-            playerMoney -= (int)current.Price;
-            current.Owned = true;
+            globalData.PlayerMoney -= globalData.ViewedBayblade.Price;
+            globalData.ViewedBayblade.Owned = true;
         }
-        
-        UpdateDisplay();
     }
 
     private void OnLeftButtonClicked()
     {
+        if(bayblades.Length < 2) return;
+        
+        var currentIndex = Array.IndexOf(bayblades, globalData.ViewedBayblade);
         currentIndex--;
+        
         if (currentIndex < 0)
             currentIndex = bayblades.Length - 1;
-            
-        UpdateDisplay();
+
+        globalData.ViewedBayblade = bayblades[currentIndex];
+        
+        UpdateBeybladeModel();
     }
 
     private void OnRightButtonClicked()
     {
+        if(bayblades.Length < 2) return;
+        
+        var currentIndex = Array.IndexOf(bayblades, globalData.ViewedBayblade);
         currentIndex++;
+        
         if (currentIndex >= bayblades.Length)
             currentIndex = 0;
-            
-        UpdateDisplay();
+        
+        globalData.ViewedBayblade = bayblades[currentIndex];
+        
+        UpdateBeybladeModel();
     }
 
     private void OnBackButtonClicked()

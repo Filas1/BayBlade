@@ -1,7 +1,7 @@
 using Unity.Properties;
 using UnityEngine;
 using UnityEngine.UIElements;
-
+[CreateAssetMenu(menuName = "GameData/Bayblades/GlobalBaybladeData")]
 public class GlobalBaybladeData : ScriptableObject
 {
     [Header("Desc")]

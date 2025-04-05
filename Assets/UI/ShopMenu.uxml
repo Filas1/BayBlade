@@ -1,26 +1,42 @@
 <UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/ShopMenuStyles.uss?fileID=7433441132597879392&amp;guid=a07e1bad10519244489e8773c84bca83&amp;type=3#ShopMenuStyles" />
-    <ui:VisualElement name="root" class="root">
+    <ui:VisualElement name="root" data-source-type="GlobalData, Assembly-CSharp" data-source="project://database/Assets/GameData/GlobalData.asset?fileID=11400000&amp;guid=4886f6fac1187774ab1137f250f999f8&amp;type=2#GlobalData" class="root">
         <ui:Label text="SHOP" class="title" />
         <ui:VisualElement name="money-container" class="money-container">
             <ui:Label text="COINS:" class="money-label" />
-            <ui:Label text="1000" name="MoneyValue" class="money-value" />
+            <ui:Label text="1000" name="MoneyValue" class="money-value">
+                <Bindings>
+                    <ui:DataBinding property="text" data-source-path="playerMoney" binding-mode="ToTarget" />
+                </Bindings>
+            </ui:Label>
         </ui:VisualElement>
         <ui:VisualElement name="shop-content" class="shop-content">
             <ui:VisualElement name="beyblade-display" class="beyblade-display">
-                <ui:VisualElement name="beyblade-render" class="beyblade-render" />
-                <ui:VisualElement name="beyblade-stats" class="beyblade-stats">
+                <ui:VisualElement name="beyblade-render" class="beyblade-render" style="margin-bottom: 0; padding-bottom: 0; padding-top: 0;" />
+                <ui:VisualElement name="beyblade-stats" data-source-path="ViewedBayblade.Data" class="beyblade-stats">
                     <ui:Label text="ATTACK: 80" name="AttackStat" class="stat-label" />
                     <ui:Label text="DEFENSE: 60" name="DefenseStat" class="stat-label" />
                     <ui:Label text="STAMINA: 75" name="StaminaStat" class="stat-label" />
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="beyblade-info" class="beyblade-info" style="height: 305px; width: 292px;">
-                <ui:Label text="STORM PEGASUS" name="BeybladeName" class="beyblade-name" />
-                <ui:Label text="The legendary Beyblade with incredible attack power!" name="BeybladeDescription" class="beyblade-description" />
+            <ui:VisualElement name="beyblade-info" class="beyblade-info" style="height: auto; width: auto; margin-left: 30px;">
+                <ui:Label text="STORM PEGASUS" name="BeybladeName" class="beyblade-name">
+                    <Bindings>
+                        <ui:DataBinding property="text" data-source-path="ViewedBayblade.Name" binding-mode="ToTarget" />
+                    </Bindings>
+                </ui:Label>
+                <ui:Label text="The legendary Beyblade with incredible attack power!" name="BeybladeDescription" class="beyblade-description">
+                    <Bindings>
+                        <ui:DataBinding property="text" data-source-path="ViewedBayblade.Description" binding-mode="ToTarget" />
+                    </Bindings>
+                </ui:Label>
                 <ui:VisualElement name="beyblade-price" class="beyblade-price">
                     <ui:Label text="PRICE:" class="price-label" />
-                    <ui:Label text="500" name="PriceValue" class="price-value" />
+                    <ui:Label text="500" name="PriceValue" class="price-value">
+                        <Bindings>
+                            <ui:DataBinding property="text" data-source-path="ViewedBayblade.Price" binding-mode="ToTarget" />
+                        </Bindings>
+                    </ui:Label>
                 </ui:VisualElement>
                 <ui:VisualElement name="navigation-controls" class="navigation-controls">
                     <ui:Button text="&lt;" name="LeftButton" class="nav-button" />
