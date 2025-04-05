@@ -1,6 +1,5 @@
 ﻿using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 [CreateAssetMenu(fileName = "BayBladeData", menuName = "GameData/BayBladeData", order = 1)]
 public class BayBladeData : ScriptableObject

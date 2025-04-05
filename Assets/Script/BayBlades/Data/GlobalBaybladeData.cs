@@ -1,6 +1,6 @@
 using Unity.Properties;
 using UnityEngine;
-using UnityEngine.UIElements;
+
 [CreateAssetMenu(menuName = "GameData/Bayblades/GlobalBaybladeData")]
 public class GlobalBaybladeData : ScriptableObject
 {
@@ -16,13 +16,16 @@ public class GlobalBaybladeData : ScriptableObject
     [CreateProperty] public BayBladeData Data => data;
     
     [Header("StatLock")]
-    [SerializeField] private float maxDefense = 120f;
     [SerializeField] private float maxAttack = 100f;
-    [SerializeField] private float maxStamina= 90f;
+    [SerializeField] private float maxDefense = 120f;
+    [SerializeField] private float maxStamina = 120f;
+    [SerializeField] private float maxStability = 90f;
+    [SerializeField] private float maxSpeed = 90f;
     
     [CreateProperty] public float MaxDefense => maxDefense;
     [CreateProperty] public float MaxAttack => maxAttack;
-    [CreateProperty] public float MaxStamina => maxStamina;
+    [CreateProperty] public float MaxStamina => maxSpeed;
+    [CreateProperty] public float MaxSpeed => maxSpeed;
     
     [Header("State")]
     [field: SerializeField] public bool Owned { get; set; }

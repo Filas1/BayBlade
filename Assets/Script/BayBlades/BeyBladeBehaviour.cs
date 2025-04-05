@@ -5,7 +5,6 @@ public class BeyBladeBehaviour : MonoBehaviour, IInteractor
 {
 
     [SerializeField] protected BayBladeData Data;
-    [SerializeField] protected float MoveVelocity = 8f;
     public float Speed => Data.Speed;
     
     protected float CurrentSpeed;
@@ -48,11 +47,16 @@ public class BeyBladeBehaviour : MonoBehaviour, IInteractor
         {
             
             var collisionDirection = (transform.position - collision.transform.position).normalized;
-            
-            // Apply force to both BeyBlades
-            
-            Rb.AddForce(collisionDirection * Data.CollisionForce * (CurrentSpeed / Data.StartSpeed), ForceMode.Impulse);
-            otherBeyBlade.HandleCollision(-collisionDirection, CurrentSpeed);
+
+            if (CurrentSpeed < otherBeyBlade.Speed)
+            {
+                HandleCollision(-collisionDirection, otherBeyBlade.Speed);
+            }
+            else
+            {
+                otherBeyBlade.HandleCollision(-collisionDirection, CurrentSpeed);
+            }
+
 
             // Reduce speed on collision
             CurrentSpeed *= 0.8f;
