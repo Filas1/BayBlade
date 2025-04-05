@@ -22,10 +22,6 @@ public class BayBladeData : ScriptableObject
     [field: SerializeField] public float Attack { get; private set; } = 50f;
     [field: SerializeField] public float Stamina { get; private set; } = 40f;
     [field: SerializeField] public float Speed { get; private set; } = 20f;
-    [Header("StatLock")]
-    [field: SerializeField] public float MaxDefense { get; private set; } = 120f;
-    [field: SerializeField] public float MaxAttack { get; private set; } = 100f;
-    [field: SerializeField] public float MaxStamina { get; private set; } = 90f;
     [Header("Props")]
     [field: SerializeField] public uint Cost { get; private set; } = 1000;
     [Header("Abilities")]

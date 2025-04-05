@@ -5,21 +5,9 @@ using System.Collections.Generic;
 
 public class ShopController : MonoBehaviour
 {
-    [System.Serializable]
-    public class BeybladeInfo
-    {
-        public string name;
-        public string description;
-        public int price;
-        public GameObject prefab;
-        public int attack;
-        public int defense;
-        public int stamina;
-        public bool owned;
-        public bool equipped;
-    }
-
-    public List<BeybladeInfo> beyblades = new List<BeybladeInfo>();
+    [SerializeField]
+    private GlobalData globalData;
+    private GlobalBaybladeData[] bayblades => globalData.Bayblades;
     public int playerMoney = 1000;
     [SerializeField] private LayerMask previewMask;
     
@@ -104,21 +92,21 @@ public class ShopController : MonoBehaviour
 
     private void UpdateDisplay()
     {
-        if (beyblades.Count == 0) return;
+        if (bayblades.Length == 0) return;
         
-        var current = beyblades[currentIndex];
+        var current = bayblades[currentIndex];
         
         // Update UI elements
         beybladeName.text = current.name;
-        beybladeDescription.text = current.description;
-        priceValue.text = current.price.ToString();
+        beybladeDescription.text = current.Description;
+        priceValue.text = current.Price.ToString();
         moneyValue.text = playerMoney.ToString();
-        attackStat.text = $"ATTACK: {current.attack}";
-        defenseStat.text = $"DEFENSE: {current.defense}";
-        staminaStat.text = $"STAMINA: {current.stamina}";
+        attackStat.text = $"ATTACK: {current.MaxAttack}";
+        defenseStat.text = $"DEFENSE: {current.MaxDefense}";
+        staminaStat.text = $"STAMINA: {current.MaxStamina}";
         
         // Update buy button based on ownership
-        if (current.equipped)
+        if (ReferenceEquals(current, globalData.Equipped))
         {
             buyButton.text = "EQUIPPED";
             buyButton.RemoveFromClassList("buy-button");
@@ -126,7 +114,7 @@ public class ShopController : MonoBehaviour
             buyButton.AddToClassList("equipped-button");
             buyButton.SetEnabled(false);
         }
-        else if (current.owned)
+        else if (current.Owned)
         {
             buyButton.text = "EQUIP";
             buyButton.RemoveFromClassList("buy-button");
@@ -140,7 +128,7 @@ public class ShopController : MonoBehaviour
             buyButton.RemoveFromClassList("owned-button");
             buyButton.RemoveFromClassList("equipped-button");
             buyButton.AddToClassList("buy-button");
-            buyButton.SetEnabled(playerMoney >= current.price);
+            buyButton.SetEnabled(playerMoney >= current.Price);
         }
         
         // Update 3D model
@@ -154,8 +142,8 @@ public class ShopController : MonoBehaviour
             Destroy(currentBeybladeModel);
             
         // Instantiate new model
-        if (!beyblades[currentIndex].prefab) return;
-        currentBeybladeModel = Instantiate(beyblades[currentIndex].prefab, containerForBayblade, true);
+        if (!bayblades[currentIndex].Prefab) return;
+        currentBeybladeModel = Instantiate(bayblades[currentIndex].Prefab, containerForBayblade, true);
         
 
         // Set layer for render camera
@@ -179,28 +167,17 @@ public class ShopController : MonoBehaviour
 
     private void OnBuyButtonClicked()
     {
-        BeybladeInfo current = beyblades[currentIndex];
+        var current = bayblades[currentIndex];
         
-        if (current.owned)
+        if (current.Owned)
         {
-            // Equip the Beyblade
-            foreach (var beyblade in beyblades)
-            {
-                beyblade.equipped = false;
-            }
-            current.equipped = true;
-            
-            // Update save data, player stats, etc.
-            // SavePlayerData();
+            globalData.Equipped = current;
         }
-        else if (playerMoney >= current.price)
+        else if (playerMoney >= current.Price)
         {
             // Buy the Beyblade
-            playerMoney -= current.price;
-            current.owned = true;
-            
-            // Update save data
-            // SavePlayerData();
+            playerMoney -= (int)current.Price;
+            current.Owned = true;
         }
         
         UpdateDisplay();
@@ -210,7 +187,7 @@ public class ShopController : MonoBehaviour
     {
         currentIndex--;
         if (currentIndex < 0)
-            currentIndex = beyblades.Count - 1;
+            currentIndex = bayblades.Length - 1;
             
         UpdateDisplay();
     }
@@ -218,7 +195,7 @@ public class ShopController : MonoBehaviour
     private void OnRightButtonClicked()
     {
         currentIndex++;
-        if (currentIndex >= beyblades.Count)
+        if (currentIndex >= bayblades.Length)
             currentIndex = 0;
             
         UpdateDisplay();

@@ -75,9 +75,6 @@ PrefabInstance:
       addedObject: {fileID: 7439505328634559931}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8aa90b82da52c5146b1e76637467f8b8, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3512176945687685023}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8aa90b82da52c5146b1e76637467f8b8, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 8095412400237059002}
     - targetCorrespondingSourceObject: {fileID: -8391222552659086748, guid: 8aa90b82da52c5146b1e76637467f8b8, type: 3}
       insertIndex: -1
@@ -160,32 +157,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 077839a032a1f26478715477d50dd5f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpeed: 10
-  startSpeed: 20
-  spinDeceleration: 1
-  maxTiltAngle: 15
-  spinAxis: {x: 0, y: 1, z: 0}
-  collisionForce: 500
-  bounceForce: 300
---- !u!114 &3512176945687685023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6580502468026329032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a44f57091b0e5a4cab01862cc2d0d57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minSpeed: 10
-  startSpeed: 20
-  spinDeceleration: 1
-  maxTiltAngle: 15
-  spinAxis: {x: 0, y: 1, z: 0}
-  collisionForce: 500
-  bounceForce: 300
+  Data: {fileID: 11400000, guid: c31e172cd4c2528499525ea18868959a, type: 2}
+  MoveVelocity: 8
 --- !u!54 &8095412400237059002
 Rigidbody:
   m_ObjectHideFlags: 0
