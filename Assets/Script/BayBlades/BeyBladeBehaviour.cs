@@ -8,37 +8,36 @@ public class BeyBladeBehaviour : MonoBehaviour, IInteractor
     public float Speed => Data.Speed;
     
     protected float CurrentSpeed;
+    protected float currentAcceleration;
     protected Rigidbody Rb;
 
     protected virtual void Start()
     {
         Rb = GetComponent<Rigidbody>();
         CurrentSpeed = Data.StartSpeed;
-        StartCoroutine(SpinningBehaviour());
     }
 
-
-    
-    private IEnumerator SpinningBehaviour()
+    protected virtual void FixedUpdate()
     {
-        while (CurrentSpeed > Data.MinSpeed)
+        if (CurrentSpeed < Data.MinSpeed)
         {
-            // Apply spinning torque
-            Rb.AddRelativeTorque(Data.SpinAxis * (CurrentSpeed * Time.fixedDeltaTime), ForceMode.Force);
-            
-            // Decrease speed over time
-            CurrentSpeed = Mathf.Max(CurrentSpeed - Data.SpinDeceleration * Time.fixedDeltaTime, Data.MinSpeed);
-
-            // Add wobble effect as speed decreases
-            var wobbleAmount = Mathf.Lerp(0f, Data.MaxTiltAngle, 1 - (CurrentSpeed / Data.StartSpeed));
-            transform.rotation = Quaternion.Euler(
-                Mathf.Sin(Time.time * 5f) * wobbleAmount,
-                transform.rotation.eulerAngles.y,
-                Mathf.Cos(Time.time * 5f) * wobbleAmount
-            );
-
-            yield return new WaitForFixedUpdate();
+            enabled=false;
+            return;
         }
+        // Apply spinning torque
+        Rb.AddRelativeTorque(Data.SpinAxis * (CurrentSpeed * Time.fixedDeltaTime), ForceMode.Acceleration);
+            
+        // Decrease speed over time
+        CurrentSpeed = Mathf.Max(CurrentSpeed - Data.SpinDeceleration * Time.fixedDeltaTime, Data.MinSpeed);
+
+        // Add wobble effect as speed decreases
+        var wobbleAmount = Mathf.Lerp(0f, Data.MaxTiltAngle, 1 - (CurrentSpeed / Data.StartSpeed));
+        transform.rotation = Quaternion.Euler(
+            Mathf.Sin(Time.time * 5f) * wobbleAmount,
+            transform.rotation.eulerAngles.y,
+            Mathf.Cos(Time.time * 5f) * wobbleAmount
+        );
+
     }
 
     private void OnCollisionEnter(Collision collision)

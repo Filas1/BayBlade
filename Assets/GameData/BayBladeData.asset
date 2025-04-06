@@ -12,12 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23958a2d26ce4dd0814a959684fe93e8, type: 3}
   m_Name: BayBladeData
   m_EditorClassIdentifier: 
-  <MinSpeed>k__BackingField: 10
-  <StartSpeed>k__BackingField: 100
-  <SpinDeceleration>k__BackingField: 1
+  <MinSpeed>k__BackingField: 1
+  <StartSpeed>k__BackingField: 200
+  <SpinDeceleration>k__BackingField: 0.1
   <MaxTiltAngle>k__BackingField: 15
   <SpinAxis>k__BackingField: {x: 0, y: 1, z: 0}
-  <MoveSpeed>k__BackingField: 10
+  <MoveSpeed>k__BackingField: 20
   <MaxMoveVelocity>k__BackingField: 8
   <CollisionForce>k__BackingField: 10
   <BounceForce>k__BackingField: 10
+  <Defense>k__BackingField: 60
+  <Attack>k__BackingField: 50
+  <Stamina>k__BackingField: 40
+  <Speed>k__BackingField: 20
+  <Cost>k__BackingField: 1000

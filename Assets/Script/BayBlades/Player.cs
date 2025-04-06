@@ -15,12 +15,10 @@ public class Player : BeyBladeBehaviour
         playerControl = new Controls();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         // Read movement input
         Vector2 movementInput = playerControl.Player.Move.ReadValue<Vector2>();
-        
-        Debug.Log("Move: "+ movementInput);
         
         // Convert to 3D space (assuming XZ plane movement)
         Vector3 movement = new Vector3(movementInput.x, 0f, movementInput.y).normalized;
